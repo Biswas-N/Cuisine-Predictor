@@ -1,5 +1,4 @@
 import pandas as pd
-from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import LabelEncoder
 
@@ -33,24 +32,12 @@ def closest_recipes(
         [normalize_ingreds(ingredients)], columns=["ingredients"])
     
     inp_vec = nf[0].transform(input_df)
-    _, neighbors = nf[-1].kneighbors(X=inp_vec, n_neighbors=n)
+    dists, neighbors = nf[-1].kneighbors(X=inp_vec, n_neighbors=n)
 
-    yummly_df = load_raw_data(DATA_FILE)
-    X = yummly_df.drop(["cuisine"], axis=1)
+    similars = list((n, 1 - d) 
+        for n,d in zip(neighbors[0], dists[0]))
+    
+    X = load_raw_data(DATA_FILE)
 
-    neighbors_list = []
-    for neighbor_dish_id in neighbors[0]:
-        neighbor_ingreds = X.iat[neighbor_dish_id, 1]
-
-        neighbors_list.append([neighbor_dish_id, neighbor_ingreds])
-
-    neighbors_df = pd.DataFrame(neighbors_list, columns=["id", "ingredients"])
-
-    similarities = cosine_similarity(nf[0].transform(neighbors_df), inp_vec)
-    neighbors_df["similarities"] = similarities[:, 0]
-
-    return list(
-        neighbors_df.loc[:, ["id", "similarities"]].itertuples(
-            index=False, name=None)
-    )
-
+    return list((X.iat[row_id, 0], score) 
+        for row_id, score in similars)

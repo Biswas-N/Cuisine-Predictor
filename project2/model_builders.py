@@ -83,7 +83,7 @@ def fit_dump_nf(models_folder: Path, data_file: Path, le: LabelEncoder):
 
     knn_pipe = Pipeline(steps=[
         ('preprocessor', preprocessor),
-        ('estimator', KNeighborsClassifier(n_neighbors=14))
+        ('estimator', KNeighborsClassifier(n_neighbors=14, metric="cosine"))
     ])
 
     sys.stderr.write(f"fit_dump_nf:\tFitting model...\n")
@@ -116,6 +116,32 @@ def fit_dump_le(models_folder: Path, data_file: Path):
     sys.stderr.write(f"fit_dump_nf:\tModel fitted and saved to {model_path}\n")
 
 
+def normalize_ingreds(x: list[str]) -> str:
+    """Pre-process and clean the raw ingredients from data file
+
+    Parameters
+    ----------
+    data_file       : Yummly.json data file path
+    """
+
+    skip_verbs = [
+        "crushed","crumbles","ground","minced","chopped",
+        "sliced","grilled","boneless","skinless"]
+    remove_verbs = lambda x: re.sub(r"|".join(skip_verbs),'', x)
+    ingreds = list(map(remove_verbs, x))
+
+    lemmatizer = WordNetLemmatizer()
+    ingreds = [" ".join([lemmatizer.lemmatize(j) 
+                    for j in i.lower().split(" ")]) 
+                for i in ingreds]
+    
+    ingreds = [re.sub("[^A-Za-z ]", "", i) for i in ingreds]
+    ingreds = [re.sub(" +", " ", i) for i in ingreds]
+    ingreds = [i.strip().replace(" ", "_" ) for i in ingreds]
+
+    return ",".join(ingreds)
+
+
 def load_raw_data(data_file: Path) -> pd.DataFrame:
     """Loads the raw data file into a pandas DataFrame
 
@@ -135,29 +161,3 @@ def load_raw_data(data_file: Path) -> pd.DataFrame:
     sys.stderr.write(
         f"load_raw_data:\tRaw data loaded into Dataframe ({yummly_df.shape})\n")
     return yummly_df
-
-
-def normalize_ingreds(x: list[str]) -> str:
-    """Pre-process and clean the raw ingredients from data file
-
-    Parameters
-    ----------
-    data_file       : Yummly.json data file path
-    """
-
-    skip_verbs = [
-        "crushed","crumbles","ground","minced","powder","chopped",
-        "sliced","grilled","boneless","skinless","steamed"]
-    remove_verbs = lambda x: re.sub(r"|".join(skip_verbs),'', x)
-    ingreds = list(map(remove_verbs, x))
-
-    lemmatizer = WordNetLemmatizer()
-    ingreds = [" ".join([lemmatizer.lemmatize(j) 
-                    for j in i.lower().split(" ")]) 
-                for i in ingreds]
-    
-    ingreds = [re.sub("[^A-Za-z ]", "", i) for i in ingreds]
-    ingreds = [re.sub(" +", " ", i) for i in ingreds]
-    ingreds = [i.strip().replace(" ", "_" ) for i in ingreds]
-
-    return ",".join(ingreds)
