@@ -1,23 +1,28 @@
-# Norman PD Incidents Parser (Project 0)
+# Cuisine Predictor (Project 2)
 ## Developer: Biswas Nandamuri
-Norman PD Incidents Parser is a python based utillity tool used to extract incidents data from a provided incident PDF file URL.
+Cuisine Predictor is a python based tool which uses LinearSVC and kNeighborsClassifier to predict the cuisine and similar dishes from [Yummly catlog](./assets/yummly.json).
 
 > The project's python code follows PEP8 Style Guide
 
-This utility uses a number of open source projects:
+#### Dependencies
+* [Scikit-learn](https://scikit-learn.org/stable/) - scikit-learn is a Python module for machine learning built on top of SciPy
+* [Pandas](https://github.com/pandas-dev/pandas) - Flexible and powerful data analysis / manipulation library for Python
+* [Nltk](https://github.com/nltk/nltk) - NLTK is a platform for building Python programs to work with human language data
 
-* [PyPDF2](https://github.com/mstamy2/PyPDF2) - Utility to read and write PDFs with Python
+#### Dev Dependencies
 * [Pytest](https://github.com/pytest-dev/pytest) - Testing framework that supports complex functional testing
 * [Pytest-cov](https://github.com/pytest-dev/pytest-cov) - Coverage plugin for pytest
-* [Pandas](https://github.com/pandas-dev/pandas) - Flexible and powerful data analysis / manipulation library for Python
-* [Jupyterlab](https://github.com/jupyterlab/jupyterlab) - Browser-based computational environment for python
 * [autopep8](https://github.com/hhatto/autopep8) - Tool that automatically formats Python code to conform to the PEP 8 style guide
+* [Jupyterlab](https://github.com/jupyterlab/jupyterlab) - Browser-based computational environment for python
+* [Matplotlib](https://github.com/matplotlib/matplotlib) - Matplotlib is a comprehensive library for creating static, animated, and interactive visualizations in Python
+* [Seaborn](https://seaborn.pydata.org/) - Seaborn is a Python data visualization library based on matplotlib
+
 
 ## Run on local system
 1. Clone this repository and move into the folder.
     ```sh
-    $ git clone https://github.com/Biswas-N/cs5293sp22-project0.git
-    $ cd cs5293sp22-project0
+    $ git clone https://github.com/Biswas-N/cs5293sp22-project2.git
+    $ cd cs5293sp22-project2
     ```
 2. Install dependencies using [Pipenv](https://github.com/pypa/pipenv).
     ```sh
@@ -27,11 +32,13 @@ This utility uses a number of open source projects:
     ```sh
     $ make
     ```
-   > Note: Project includes a `Makefile` which has commonly used commands. By running `make` the following command `pipenv run python main.py --incidents <Sample URL>'` is executed.
+   > Note: Project includes a `Makefile` which has commonly used commands. By running `make` the following command `pipenv run python project2.py --N 5 --ingredient "chili powder" --ingredient "crushed red pepper flakes" --ingredient "garlic powder" --ingredient "sea salt" --ingredient "ground cumin" --ingredient "onion powder" --ingredient "dried oregano" --ingredient paprika` is executed.
+
+   > Note on Model: If pre-fitted models does not exist in `models` folder, this tool creates fitted-models based on `assets/yummly.json` data and stores them in `models` folder using `joblib`. So the first execution may take more time than typical execution times.
 
 ## Documentation
 
-The documentation about code structure and extraction algorithm can be found [here](./docs/Index.md).
+The documentation about code structure, model building and prediction algorithm can be found [here](./docs/Index.md).
 
 ## Testing
 
@@ -52,5 +59,6 @@ Documentation about the tests can be found [here](./docs/Testing.md). Follow the
     ```
 
 ## Bugs/Assumptions
--  The utility is built based on the assumption that, there might be empty spaces either in Location or Nature column or both. If there are empty value in any other columns the utility may fail to extract incidents.
-- The utility assumes there are only five columns (Datetime, Incident Number, Location, Nature and Incident ORI) for each incident. If that is changed, the utility may fail to extract incidents.
+- This tool assumes that the `yummly.json` is present in `assets` folder. So if the data file is not present in the folder, this tool may fail.
+- Similarly, this tool assumes there are three keys in each JSON object in `yummly.json` file called `id`, `cuisine` and `ingredients` (should be a list of ingredients). If the data inside `yummly.json` is not as expected, the tool may fail.
+- This tool is built using LinearSVC and KNeighborsClassifier, and trained using the given `yummly.json` data. So this tools accuracy is based on the data quality provided and statistical techniques used in the above said models. I tried using the best approaches possible for pre-processing and model fitting in the given time constraints. But there is always more to do, so there might be cases in which the tool can predict less-accurate results.
