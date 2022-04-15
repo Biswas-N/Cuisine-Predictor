@@ -5,7 +5,7 @@ This file explans about the unittesting done to this utility using `pytest`. The
 
 Testing is done as per two levels of this tool.
 - [Project Level](#project-level)
-- [Model Builders](#parser)
+- [Model Builders](#model-builders)
 
 ## Project Level
 [`test_project2.py`](../tests/test_project2.py) tests the pipeline of the complete cuisine prediction and similar dishes finding process.
