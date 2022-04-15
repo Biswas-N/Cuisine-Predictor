@@ -2,7 +2,7 @@ import project2
 from project2.model_utils import load_models
 
 
-def test_say_hello():
+def test_project():
     ingredients = [
         "chili powder",
         "crushed red pepper flakes",
@@ -20,7 +20,7 @@ def test_say_hello():
     cuisine_name, score = project2.get_cusine_prediction(
         cf, le, ingredients)
     closest = project2.closest_recipes(
-        nf, le, ingredients, 5)
+        nf, ingredients, 5)
 
     assert cuisine_name == "mexican"
     assert score > 0

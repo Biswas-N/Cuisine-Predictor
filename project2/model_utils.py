@@ -1,4 +1,4 @@
-from joblib import dump, load
+from joblib import load
 from pathlib import Path
 import os
 import sys

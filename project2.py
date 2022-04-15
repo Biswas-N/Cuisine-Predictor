@@ -22,7 +22,7 @@ def main(args: argparse.Namespace):
     cuisine_name, score = project2.get_cusine_prediction(
         cf, le, args.ingredient)
     closest = project2.closest_recipes(
-        nf, le, args.ingredient, args.N)
+        nf, args.ingredient, args.N)
 
     json_raw_output = {}
     json_raw_output["cuisine"] = cuisine_name
@@ -57,4 +57,3 @@ if __name__ == '__main__':
         main(args)
     except Exception as e:
         sys.stderr.write(str(e) + "\n")
-        sys.stderr.write(str(e.with_traceback()) + "\n")

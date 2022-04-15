@@ -125,18 +125,22 @@ def normalize_ingreds(x: list[str]) -> str:
     data_file       : Yummly.json data file path
     """
 
+    # Removed any actionable verbs from the ingredient
     skip_verbs = [
         "crushed", "crumbles", "ground", "minced", "chopped",
         "sliced", "grilled", "boneless", "skinless"]
-
     def remove_verbs(x): return re.sub(r"|".join(skip_verbs), '', x)
     ingreds = list(map(remove_verbs, x))
 
+    # Change the ingredients into their base form (eg. eggs -> egg)
     lemmatizer = WordNetLemmatizer()
     ingreds = [" ".join([lemmatizer.lemmatize(j)
                          for j in i.lower().split(" ")])
                for i in ingreds]
 
+    # Remove any non character or spaces from the ingredient
+    # along with replacing multi-spaces with single space, so
+    # that it can be replaced with single underscore ('_')
     ingreds = [re.sub("[^A-Za-z ]", "", i) for i in ingreds]
     ingreds = [re.sub(" +", " ", i) for i in ingreds]
     ingreds = [i.strip().replace(" ", "_") for i in ingreds]

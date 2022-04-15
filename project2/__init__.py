@@ -25,7 +25,7 @@ def get_cusine_prediction(
 
 
 def closest_recipes(
-    nf: Pipeline, le: LabelEncoder, ingredients: list[str], n: int
+    nf: Pipeline, ingredients: list[str], n: int
 ) -> list[tuple[str, float]]:
 
     input_df = pd.DataFrame(
