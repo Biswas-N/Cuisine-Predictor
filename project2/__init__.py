@@ -9,7 +9,7 @@ from project2.model_utils import DATA_FILE
 def get_cusine_prediction(
     cf: Pipeline, le: LabelEncoder, ingredients: list[str]
 ) -> tuple[str, float]:
-    
+
     input_df = pd.DataFrame(
         [normalize_ingreds(ingredients)], columns=["ingredients"])
 
@@ -27,17 +27,17 @@ def get_cusine_prediction(
 def closest_recipes(
     nf: Pipeline, le: LabelEncoder, ingredients: list[str], n: int
 ) -> list[tuple[str, float]]:
-    
+
     input_df = pd.DataFrame(
         [normalize_ingreds(ingredients)], columns=["ingredients"])
-    
+
     inp_vec = nf[0].transform(input_df)
     dists, neighbors = nf[-1].kneighbors(X=inp_vec, n_neighbors=n)
 
-    similars = list((n, 1 - d) 
-        for n,d in zip(neighbors[0], dists[0]))
-    
+    similars = list((n, 1 - d)
+                    for n, d in zip(neighbors[0], dists[0]))
+
     X = load_raw_data(DATA_FILE)
 
-    return list((X.iat[row_id, 0], score) 
-        for row_id, score in similars)
+    return list((X.iat[row_id, 0], score)
+                for row_id, score in similars)

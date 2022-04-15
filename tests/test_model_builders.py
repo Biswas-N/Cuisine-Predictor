@@ -14,7 +14,7 @@ def tests_root():
 
 
 @pytest.fixture()
-def dummy_raw_data_file(tests_root):    
+def dummy_raw_data_file(tests_root):
     dummy_file = os.path.join(tests_root, "assets", "yummly_test.json")
     return dummy_file
 
@@ -22,8 +22,9 @@ def dummy_raw_data_file(tests_root):
 def test_load_raw_data(dummy_raw_data_file):
     test_df = model_builders.load_raw_data(dummy_raw_data_file)
 
-    assert test_df.shape == (145,3)
-    assert (test_df.columns == np.array(['id', 'cuisine', 'ingredients'])).all()
+    assert test_df.shape == (145, 3)
+    assert (test_df.columns == np.array(
+        ['id', 'cuisine', 'ingredients'])).all()
 
 
 def test_normalize_ingreds():
@@ -39,10 +40,10 @@ def test_normalize_ingreds():
 
 
 @pytest.fixture(scope="module")
-def dummy_models_folder(tests_root):    
-    dummy_models_fldr = os.path.join(tests_root,  "assets", "models")
+def dummy_models_folder(tests_root):
+    dummy_models_fldr = os.path.join(tests_root, "assets", "models")
     Path(dummy_models_fldr).mkdir(parents=True, exist_ok=True)
-    
+
     yield dummy_models_fldr
 
     os.rmdir(dummy_models_fldr)
@@ -53,7 +54,7 @@ def test_fit_dump_le(dummy_models_folder, dummy_raw_data_file):
 
     model_file = os.path.join(
         dummy_models_folder, model_builders.LE_ENCODER_NAME)
-    
+
     assert os.path.exists(model_file) == True
 
     os.remove(model_file)
@@ -64,6 +65,7 @@ model_dump_testcases = [
     (model_builders.fit_dump_cf, model_builders.CF_MODEL_NAME),
     (model_builders.fit_dump_nf, model_builders.NF_MODEL_NAME)
 ]
+
 
 @pytest.mark.parametrize("test_func, model_name", model_dump_testcases)
 def test_fit_dump_finder_models(
@@ -78,7 +80,7 @@ def test_fit_dump_finder_models(
 
     model_file = os.path.join(
         dummy_models_folder, model_name)
-    
+
     assert os.path.exists(model_file) == True
 
     os.remove(model_file)

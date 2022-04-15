@@ -18,22 +18,27 @@ DATA_FILE = Path(os.path.join(__ASSETS_FOLDER, "yummly.json"))
 
 def load_models() -> tuple[Pipeline, Pipeline, LabelEncoder]:
     sys.stderr.write("Loading models...\n")
-    
+
     if not os.path.exists(__ASSETS_FOLDER) or not os.path.exists(DATA_FILE):
         raise Exception(f"Yummly.json not present in {__ASSETS_FOLDER}")
 
     if not os.path.exists(__MODELS_FOLDER):
-        sys.stderr.write(f"Models folder not found! Creating models folder..\n")
+        sys.stderr.write(
+            f"Models folder not found! Creating models folder..\n")
         __MODELS_FOLDER.mkdir(parents=True)
 
-    cf_path = os.path.join(__MODELS_FOLDER, CF_MODEL_NAME) # Cusine Finder Model
-    nf_path = os.path.join(__MODELS_FOLDER, NF_MODEL_NAME) # Neighbors Finder Model
-    le_path = os.path.join(__MODELS_FOLDER, LE_ENCODER_NAME) # Label Encoder Model
+    cf_path = os.path.join(
+        __MODELS_FOLDER,
+        CF_MODEL_NAME)  # Cusine Finder Model
+    nf_path = os.path.join(__MODELS_FOLDER,
+                           NF_MODEL_NAME)  # Neighbors Finder Model
+    le_path = os.path.join(__MODELS_FOLDER,
+                           LE_ENCODER_NAME)  # Label Encoder Model
 
     if not os.path.exists(le_path):
         fit_dump_le(__MODELS_FOLDER, DATA_FILE)
     le = load(le_path)
-    
+
     if not os.path.exists(cf_path):
         fit_dump_cf(__MODELS_FOLDER, DATA_FILE, le)
 

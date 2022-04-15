@@ -15,7 +15,7 @@ def main(args: argparse.Namespace):
     args    : Parsed command line args
     """
 
-    # Getting the fitted Cusine Finder (cf), Neighbors Finder (nf) 
+    # Getting the fitted Cusine Finder (cf), Neighbors Finder (nf)
     # and Label Encoder models
     cf, nf, le = load_models()
 
@@ -28,7 +28,7 @@ def main(args: argparse.Namespace):
     json_raw_output["cuisine"] = cuisine_name
     json_raw_output["score"] = round(score, 2)
     json_raw_output["closest"] = [{"id": str(c[0]), "score": round(c[1], 2)}
-        for c in closest]
+                                  for c in closest]
 
     json_formatted_output = json.dumps(json_raw_output, indent=2)
 
