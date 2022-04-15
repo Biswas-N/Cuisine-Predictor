@@ -15,7 +15,8 @@ def main(args: argparse.Namespace):
     args    : Parsed command line args
     """
 
-    # Getting the Cusine Finder (cf) and Neighbors Finder (nf) models
+    # Getting the fitted Cusine Finder (cf), Neighbors Finder (nf) 
+    # and Label Encoder models
     cf, nf, le = load_models()
 
     cuisine_name, score = project2.get_cusine_prediction(

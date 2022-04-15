@@ -8,7 +8,6 @@ run:
 		--ingredient "ground cumin" \
 		--ingredient "onion powder" \
 		--ingredient "dried oregano" \
-		--ingredient "ground black pepper" \
 		--ingredient paprika 
 
 test:
