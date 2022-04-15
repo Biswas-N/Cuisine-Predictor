@@ -1,8 +1,15 @@
 run:
-	pipenv run python project2.py --N 5 \
-								  --ingredient paprika \
-                                  --ingredient banana \
-                                  --ingredient "rice krispies"
+	pipenv run python project2.py \
+		--N 5 \
+		--ingredient "chili powder" \
+		--ingredient "crushed red pepper flakes" \
+		--ingredient "garlic powder" \
+		--ingredient "sea salt" \
+		--ingredient "ground cumin" \
+		--ingredient "onion powder" \
+		--ingredient "dried oregano" \
+		--ingredient "ground black pepper" \
+		--ingredient paprika 
 
 test:
 	pipenv run python -m pytest
