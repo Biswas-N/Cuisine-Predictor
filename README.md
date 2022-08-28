@@ -1,6 +1,6 @@
-# Cuisine Predictor (Project 2)
+# Cuisine Predictor
 ## Developer: Biswas Nandamuri
-Cuisine Predictor is a python based tool which uses LinearSVC and kNeighborsClassifier to predict the cuisine and similar dishes from [Yummly catlog](./assets/yummly.json).
+Cuisine Predictor is a python based tool wrapping ML models which use Scikit Learn's LinearSVC and kNeighborsClassifier to predict the cuisine and similar dishes from [Yummly catlog](./assets/yummly.json).
 
 > The project's python code follows PEP8 Style Guide
 
